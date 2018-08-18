@@ -10,23 +10,23 @@
 
 <script>
 export default {
-	name: 'Tasks',
-	methods: {
-		create() {
-			this.$store.dispatch('addTask');
-		}
-	},
-	computed: {
-		tasks() {
-			return this.$store.getters.tasks;
-		}
-	}
+  name: "Tasks",
+  methods: {
+    create() {
+      this.$store.dispatch("addTask");
+    }
+  },
+  computed: {
+    tasks() {
+      return this.$store.getters.tasks;
+    }
+  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 h3 {
-	margin: 40px 0 0;
+  margin: 40px 0 0;
 }
 </style>

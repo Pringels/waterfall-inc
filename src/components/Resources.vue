@@ -10,30 +10,30 @@
 
 <script>
 export default {
-	name: 'Resources',
-	methods: {
-		allocate(resource) {
-			this.$store.dispatch('allocateTask', resource);
-		},
-		selfAllocate(resource) {
-			setTimeout(() => {
-				this.$store.dispatch('allocateTask', resource);
-				this.selfAllocate(resource);
-			}, 500);
-		}
-	},
-	computed: {
-		resources() {
-			return this.$store.getters.resources;
-		},
-		tasks() {}
-	}
+  name: "Resources",
+  methods: {
+    allocate(resource) {
+      this.$store.dispatch("allocateTask", resource);
+    },
+    selfAllocate(resource) {
+      setTimeout(() => {
+        this.$store.dispatch("allocateTask", resource);
+        this.selfAllocate(resource);
+      }, 500);
+    }
+  },
+  computed: {
+    resources() {
+      return this.$store.getters.resources;
+    },
+    tasks() {}
+  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 h3 {
-	margin: 40px 0 0;
+  margin: 40px 0 0;
 }
 </style>
