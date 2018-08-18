@@ -1,10 +1,10 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from "vue";
+import Vuex from "vuex";
 
-import Company from './modules/company';
-import Projects from './modules/projects';
-import Resources from './modules/resources';
-import Tasks from './modules/tasks';
+import Company from "./modules/company";
+import Projects from "./modules/projects";
+import Resources from "./modules/resources";
+import Tasks from "./modules/tasks";
 
 Vue.use(Vuex);
 

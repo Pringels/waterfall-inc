@@ -19,28 +19,28 @@
 
 <script>
 export default {
-  name: 'Projects',
+  name: "Projects",
   methods: {
     splitIntoTasks(id) {
-      this.$store.dispatch('splitIntoTasks', id)
+      this.$store.dispatch("splitIntoTasks", id);
     },
     start(id) {
-      this.$store.dispatch('startProject', id)
+      this.$store.dispatch("startProject", id);
     },
     tasksRemaining(id) {
-      const length = this.$store.getters.inCompleteTasksByProjectId(id).length
-      return length
+      const length = this.$store.getters.inCompleteTasksByProjectId(id).length;
+      return length;
     }
   },
   computed: {
     pendingProjects() {
-      return this.$store.getters.pendingProjects
+      return this.$store.getters.pendingProjects;
     },
     activeProjects() {
-      return this.$store.getters.activeProjects
+      return this.$store.getters.activeProjects;
     }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

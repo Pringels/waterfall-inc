@@ -7,13 +7,13 @@
 
 <script>
 export default {
-  name: 'Company',
+  name: "Company",
   computed: {
     funds() {
-      return this.$store.getters.funds
+      return this.$store.getters.funds;
     }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

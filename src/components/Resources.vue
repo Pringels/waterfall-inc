@@ -16,36 +16,36 @@
 </template>
 
 <script>
-import uuidv4 from 'uuid/v4'
+import uuidv4 from "uuid/v4";
 
 export default {
-  name: 'Resources',
+  name: "Resources",
   data: () => ({
-    role: '',
+    role: "",
     skill: 0.5
   }),
   methods: {
     allocate(resource) {
-      this.$store.dispatch('allocateTask', resource)
+      this.$store.dispatch("allocateTask", resource);
     },
     addResource() {
-      this.$store.dispatch('addResource', {
+      this.$store.dispatch("addResource", {
         id: uuidv4(),
         activeTask: null,
         role: this.role,
         skill: this.skill,
-        name: 'NOOB ' + this.role + ' - ' + this.skill,
+        name: "NOOB " + this.role + " - " + this.skill,
         cost: 1000 * this.skill
-      })
+      });
     }
   },
   computed: {
     resources() {
-      return this.$store.getters.resources
+      return this.$store.getters.resources;
     },
     tasks() {}
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

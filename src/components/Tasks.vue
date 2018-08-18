@@ -25,24 +25,24 @@
 
 <script>
 export default {
-  name: 'Tasks',
+  name: "Tasks",
   methods: {
     create() {
-      this.$store.dispatch('addTask')
+      this.$store.dispatch("addTask");
     }
   },
   computed: {
     readyTasks() {
-      return this.$store.getters.readyTasks
+      return this.$store.getters.readyTasks;
     },
     pendingTasks() {
-      return this.$store.getters.pendingTasks
+      return this.$store.getters.pendingTasks;
     },
     doneTasks() {
-      return this.$store.getters.doneTasks
+      return this.$store.getters.doneTasks;
     }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

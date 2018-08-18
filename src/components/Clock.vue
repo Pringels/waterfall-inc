@@ -15,33 +15,33 @@
 
 <script>
 export default {
-  name: 'Clock',
+  name: "Clock",
   data() {
     return {
       speed: this.$store.getters.timeInfo.speed,
       auto: this.$store.getters.timeInfo.autoStartDay
-    }
+    };
   },
   methods: {
     start() {
-      this.$store.dispatch('startDay')
+      this.$store.dispatch("startDay");
     },
     toggleSpeed() {
-      this.$store.dispatch('setSpeed', this.speed)
+      this.$store.dispatch("setSpeed", this.speed);
     },
     toggleAuto(event) {
-      this.$store.dispatch('setAuto', event.target.checked)
+      this.$store.dispatch("setAuto", event.target.checked);
     },
     togglePause(pause) {
-      this.$store.dispatch('setPause', pause)
+      this.$store.dispatch("setPause", pause);
     }
   },
   computed: {
     timeInfo() {
-      return this.$store.getters.timeInfo
+      return this.$store.getters.timeInfo;
     }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

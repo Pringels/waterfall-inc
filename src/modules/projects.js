@@ -1,5 +1,5 @@
-import uuidv4 from 'uuid/v4';
-import Vue from 'vue';
+import uuidv4 from "uuid/v4";
+import Vue from "vue";
 
 const Projects = {
   state: {

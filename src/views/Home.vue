@@ -12,14 +12,14 @@
 
 <script>
 // @ is an alias to /src
-import Resources from '@/components/Resources.vue'
-import Tasks from '@/components/Tasks.vue'
-import Clock from '@/components/Clock.vue'
-import Projects from '@/components/Projects.vue'
-import Company from '@/components/Company.vue'
+import Resources from "@/components/Resources.vue";
+import Tasks from "@/components/Tasks.vue";
+import Clock from "@/components/Clock.vue";
+import Projects from "@/components/Projects.vue";
+import Company from "@/components/Company.vue";
 
 export default {
-  name: 'home',
+  name: "home",
   components: {
     Company,
     Projects,
@@ -27,5 +27,5 @@ export default {
     Resources,
     Tasks
   }
-}
+};
 </script>
