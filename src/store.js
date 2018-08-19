@@ -15,7 +15,7 @@ const store = new Vuex.Store({
     dayActive: false,
     currentHour: 0,
     dayLength: 8,
-    speed: 5,
+    speed: 2,
     cycle: 0,
     autoStartDay: true,
     paused: false
@@ -71,6 +71,7 @@ const store = new Vuex.Store({
     },
     endDay({ commit, state, dispatch }) {
       commit("endDay");
+      commit("subtractTimeFromActiveProjects");
       if (state.autoStartDay) {
         dispatch("startDay");
       }

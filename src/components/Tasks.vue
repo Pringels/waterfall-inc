@@ -10,6 +10,7 @@
       <div class="column">  
         <div v-for="task in pendingTasks.slice(0, 10)" :key="task.id">
           <p>Name: {{ task.name }}</p>
+           <p>Progress: {{ task.progress }}</p>
         </div>
       </div>
       <div class="column">  

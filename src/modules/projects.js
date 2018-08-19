@@ -82,6 +82,9 @@ const Projects = {
     completeProject(state, id) {
       Vue.set(state.done, id, state.active[id]);
       Vue.delete(state.active, id);
+    },
+    subtractTimeFromActiveProjects(state) {
+      Object.values(state.active).forEach(project => (project.time -= 1));
     }
   },
   actions: {
@@ -106,46 +109,42 @@ const Projects = {
       );
       const tasks = Array(taskCount)
         .fill()
-        .map(i => {
+        .map((_, i) => {
           return {
             name: `${project.client} - ${project.name} - ${i}`,
             project: project.id,
-            id: uuidv4(),
-            status: "ready",
             complexity: Math.ceil(project.complexity * Math.random() * 10) / 10,
-            progress: 0,
             type: "arch",
-            bugs: 0,
             producesTasks: [
               {
                 type: "fed",
                 count: Math.ceil(project.workDivision.fed),
-                proportion: 0.8
+                proportion: 1
               },
               {
                 type: "fed",
                 count: Math.ceil(project.workDivision.fed * 1.5),
-                proportion: 0.4
+                proportion: 0.8
               },
               {
                 type: "fed",
                 count: Math.ceil(project.workDivision.fed * 2),
-                proportion: 0.2
-              },
-              {
-                type: "bed",
-                count: Math.ceil(project.workDivision.bed),
-                proportion: 0.8
-              },
-              {
-                type: "bed",
-                count: Math.ceil(project.workDivision.bed * 1.5),
                 proportion: 0.4
               },
               {
                 type: "bed",
+                count: Math.ceil(project.workDivision.bed),
+                proportion: 1
+              },
+              {
+                type: "bed",
+                count: Math.ceil(project.workDivision.bed * 1.5),
+                proportion: 0.8
+              },
+              {
+                type: "bed",
                 count: Math.ceil(project.workDivision.fed * 2),
-                proportion: 0.2
+                proportion: 0.4
               }
             ]
           };

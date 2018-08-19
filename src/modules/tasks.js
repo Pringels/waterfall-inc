@@ -1,53 +1,13 @@
 import uuidv4 from "uuid/v4";
+import Vue from "vue";
 
 const Tasks = {
   state: {
-    items: [
-      // {
-      //   name: "some MEDIUM task",
-      //   id: 1,
-      //   status: "ready",
-      //   complexity: 0.5,
-      //   progress: 0,
-      //   type: "fed",
-      //   bugs: 0,
-      //   producesTasks: [{ type: "qa", count: 1, proportion: 0.3 }]
-      // },
-      // {
-      //   name: "some EASY task",
-      //   id: 2,
-      //   status: "ready",
-      //   complexity: 0.1,
-      //   progress: 0,
-      //   type: "fed",
-      //   bugs: 0,
-      //   producesTasks: [{ type: "qa", count: 1, proportion: 0.1 }]
-      // },
-      // {
-      //   name: "some HARD task",
-      //   id: 3,
-      //   status: "ready",
-      //   complexity: 0.5,
-      //   progress: 0,
-      //   type: "fed",
-      //   bugs: 0,
-      //   producesTasks: [{ type: "qa", count: 1, proportion: 0.3 }]
-      // },
-      // {
-      //   name: "Atchtecture!",
-      //   id: 3,
-      //   status: "ready",
-      //   complexity: 0.9,
-      //   progress: 0,
-      //   type: "arch",
-      //   bugs: 0,
-      //   producesTasks: [
-      //     { type: "fed", count: 1, proportion: 0.8 },
-      //     { type: "fed", count: 4, proportion: 0.5 },
-      //     { type: "fed", count: 6, proportion: 0.2 }
-      //   ]
-      // }
-    ],
+    items: {
+      ready: {},
+      pending: {},
+      done: {}
+    },
     producers: {
       fed: "qa",
       bed: "qa"
@@ -55,8 +15,9 @@ const Tasks = {
   },
   mutations: {
     addTask(state, task) {
-      state.items.push({
-        id: uuidv4(),
+      const id = uuidv4();
+      Vue.set(state.items.ready, id, {
+        id,
         status: "ready",
         progress: 0,
         bugs: 0,
@@ -64,12 +25,16 @@ const Tasks = {
       });
     },
 
-    addTasks(state, tasks) {
-      state.items = [...state.items, ...tasks];
-    },
-
     completeTask(state, task) {
       task.status = "done";
+      Vue.set(state.items.done, task.id, task);
+      Vue.delete(state.items.pending, task.id);
+    },
+
+    startTask(state, task) {
+      task.status = "pending";
+      Vue.set(state.items.pending, task.id, task);
+      Vue.delete(state.items.ready, task.id);
     }
   },
   actions: {
@@ -84,30 +49,35 @@ const Tasks = {
       commit("addTask", task);
     },
     addTasks({ commit }, tasks) {
-      commit("addTasks", tasks);
+      tasks.forEach(task => commit("addTask", task));
     }
   },
   getters: {
     tasks: state => {
-      return state.items;
+      return {
+        ...state.items.ready,
+        ...state.items.pending,
+        ...state.items.done
+      };
     },
     readyTasks: state => {
-      return state.items.filter(item => item.status === "ready");
+      return Object.values(state.items.ready);
     },
     readyTasksByType: (_, getters) => role =>
       getters.readyTasks.filter(task => task.type === role),
     pendingTasks: state => {
-      return state.items.filter(item => item.status === "pending");
+      return Object.values(state.items.pending);
     },
     doneTasks: state => {
-      return state.items.filter(item => item.status === "done");
+      return Object.values(state.items.done);
     },
     inCompleteTasksByProjectId: state => id => {
-      return state.items.filter(
-        item => item.status != "done" && item.project === id
-      );
+      return Object.values({
+        ...state.items.ready,
+        ...state.items.pending
+      }).filter(item => item.project === id);
     },
-    taskById: state => id => state.items.find(item => item.id === id),
+    taskById: (state, getters) => id => getters.tasks[id],
     shouldProduce: state => type => state.producers[type]
   }
 };

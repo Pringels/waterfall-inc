@@ -2,7 +2,11 @@
   <div class="hello">
     <h1>Resources</h1>
     <div v-for="resource in resources" :key="resource.id">
-      {{ resource.name }} - {{ resource.activeTask ? 'Working...' : 'Idle' }}
+      {{ resource.name }} - {{ resource.activeTask ? 'Working...' : 'Idle' }} - Familair: {{ resource.familiarity }}
+      <select v-model="resource.project" @input="(e) => assign(e.target.value, resource)">
+        <option value="null">None</option>
+        <option v-for="project in projects" :key="project.id" :value="project.id">{{ project.name }}</option>
+      </select>
     </div>
     <select v-model="role">
       <option value="fed">FED</option>
@@ -34,14 +38,21 @@ export default {
         activeTask: null,
         role: this.role,
         skill: this.skill,
+        familiarity: 0,
         name: "NOOB " + this.role + " - " + this.skill,
         cost: 1000 * this.skill
       });
+    },
+    assign(projectId, resource) {
+      this.$store.dispatch("assignToProject", { resource, projectId });
     }
   },
   computed: {
     resources() {
       return this.$store.getters.resources;
+    },
+    projects() {
+      return this.$store.getters.activeProjects;
     },
     tasks() {}
   }

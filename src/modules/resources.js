@@ -1,6 +1,57 @@
 const Resources = {
   state: {
-    staff: [],
+    staff: [
+      {
+        id: 1,
+        activeTask: null,
+        role: "fed",
+        skill: 0.9,
+        familiarity: 0,
+        project: "b",
+        name: "Good FED",
+        cost: 2000
+      },
+      {
+        id: 2,
+        activeTask: null,
+        role: "qa",
+        project: "b",
+        familiarity: 0,
+        skill: 0.6,
+        name: "Some QA",
+        cost: 2000
+      },
+      {
+        id: 3,
+        activeTask: null,
+        role: "bed",
+        skill: 0.6,
+        familiarity: 0,
+        project: "b",
+        name: "Some BED",
+        cost: 2000
+      },
+      {
+        id: 5,
+        activeTask: null,
+        role: "fed",
+        skill: 0.1,
+        familiarity: 0,
+        project: "b",
+        name: "Bad FED",
+        cost: 2000
+      },
+      {
+        id: 4,
+        activeTask: null,
+        role: "arch",
+        skill: 0.6,
+        familiarity: 0,
+        project: "b",
+        name: "Some Arch",
+        cost: 2000
+      }
+    ],
     canProduceBugs: {
       fed: true,
       bed: true,
@@ -14,13 +65,16 @@ const Resources = {
     },
     allocateTask(state, { resource, task }) {
       resource.activeTask = task.id;
-      task.status = "pending";
     },
     removeTask(state, { resource }) {
       resource.activeTask = null;
     },
     doWorkOnTask(state, { resource, task }) {
       const effectiveness = 1 + resource.skill - task.complexity;
+      resource.familiarity += Math.round(resource.skill * 10) / 100;
+      if (resource.familiarity > 1) {
+        resource.familiarity = 1;
+      }
       const workDone = Math.ceil(
         effectiveness * effectiveness * effectiveness * 10
       );
@@ -29,10 +83,14 @@ const Resources = {
       } else {
         task.progress += workDone;
       }
-      const introducedBug = Math.random() + effectiveness < 1.3;
+      const introducedBug =
+        Math.random() + effectiveness * resource.familiarity < 1.3;
       if (introducedBug && state.canProduceBugs[resource.role]) {
         task.bugs += 1;
       }
+    },
+    assignToProject(state, { projectId, resource }) {
+      resource.project = projectId;
     }
   },
   actions: {
@@ -56,13 +114,19 @@ const Resources = {
         let task;
         const doableTasks = context.getters.readyTasksByType(resource.role);
         if (doableTasks.length) {
-          task = doableTasks[doableTasks.length - 1];
+          task = doableTasks.find(task => task.project === resource.project);
         }
         if (task) {
+          context.commit("startTask", task);
           context.commit("allocateTask", { resource, task });
           context.dispatch("doWork", { resource, task });
         }
       }
+    },
+
+    assignToProject(context, { projectId, resource }) {
+      context.commit("assignToProject", { projectId, resource });
+      context.dispatch("allocateTask", resource);
     },
 
     doWork(context, { resource, task }) {
